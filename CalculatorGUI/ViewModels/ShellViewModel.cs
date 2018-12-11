@@ -12,14 +12,16 @@ namespace CalculatorGUI.ViewModels
 	{
 		private Resolver resolver = new Resolver();
 
-		private List<char> expression = new List<char>() { '0' };
+		private List<char> expression = new List<char>();
 		private bool isAnswer = false;
-		private string answer;
+		private string answer = "";
 
 		public string Expression {
 			get {
 				if (isAnswer)
 					return answer;
+				else if (expression.Count == 0)
+					return "0";
 				else {
 					string result = String.Concat(expression.Where(c => true));
 					return result;
@@ -29,6 +31,15 @@ namespace CalculatorGUI.ViewModels
 
 		public void Button_Click(char c) {
 			isAnswer = false;
+
+			if (answer != "0" && answer.Length != 0) {
+				foreach (char n in answer) {
+					expression.Add(n);
+				}
+				answer = "0";
+			}
+			
+
 			expression.Add(c);
 			NotifyOfPropertyChange(() => Expression);
 		}
