@@ -16,8 +16,8 @@ namespace Calculator
 			if (rawExp.Count == 0)
 				return 0;
 
-			//trims
-			while (!Char.IsNumber(rawExp[0]) && rawExp[0] != '(') {
+			//start and end trims
+			while (!Char.IsNumber(rawExp[0]) && rawExp[0] != '(' && rawExp[0] != '-') {
 				rawExp.RemoveAt(0);
 				if (rawExp.Count == 0)
 					return 0;
@@ -49,8 +49,20 @@ namespace Calculator
 						n = n + Char.GetNumericValue(exp[i]) / (Math.Pow(10, floating));
 						floating++;
 					}
-					else
+					else if (i != 0 && exp[i-1] == '-') {
+						n = Char.GetNumericValue(exp[i]) * -1;
+						if (i - 2 >= 0 && Char.IsNumber(exp[i - 2]))
+							result[result.Count - 1] = NodeFac.Create('+');
+						else result.RemoveAt(result.Count - 1);
+					}
+					else if (i != 0 && exp[i - 1] == '+') {
+						n = Char.GetNumericValue(exp[i]);
+						if (!Char.IsNumber(exp[i - 2]))
+							result.RemoveAt(result.Count -1);
+					}
+					else {
 						n = n * 10 + Char.GetNumericValue(exp[i]);
+					}
 
 					if (i == exp.Count - 1)
 						result.Add(new NumNode(n));
@@ -73,7 +85,7 @@ namespace Calculator
 					else if (node.Value == ")" && !Char.IsNumber(exp[i-1]) && exp[i-1] != ')' && exp[i-1] != '(') {
 						continue;
 					}
-					result.Add(NodeFac.Create(exp[i]));
+					result.Add(node);
 				}
 			}
 
@@ -101,6 +113,7 @@ namespace Calculator
 		private List<Node> ResolveOps(List<Node> exp) {
 			exp = ResolveOp(exp, OpPrecedence.prio1);
 			exp = ResolveOp(exp, OpPrecedence.prio2);
+			exp = ResolveOp(exp, OpPrecedence.prio3);
 
 			return exp;
 		}
@@ -143,8 +156,10 @@ namespace Calculator
 			}
 
 			OpNode opNode = (OpNode)exp[i];
-			Node Prev = exp[i - 1];
-			Node Next = exp[i + 1];
+			int j = 1;
+			Node Prev = exp[i - j];
+			Node Next = exp[i + j];
+
 			if (Prev is NumNode && Next is NumNode) {
 				NumNode numNode = new NumNode(opNode.Calculate(((NumNode)exp[i - 1]).Num, ((NumNode)exp[i + 1]).Num));
 				exp[i] = numNode;

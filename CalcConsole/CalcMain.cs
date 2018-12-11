@@ -20,13 +20,5 @@ namespace CalcConsole
 			}
 			
 		}
-
-		static void WriteResult(List<char> r) {
-			Console.WriteLine();
-
-			foreach (char c in r) {
-				Console.Write(c);
-			}
-		}
 	}
 }

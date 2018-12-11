@@ -1,0 +1,160 @@
+﻿<Window x:Class="CalculatorGUI.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:cal="http://www.caliburnproject.org"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:CalculatorGUI.Views"
+		xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d" FontSize="24"
+        Title="ShellView" Height="450" Width="450" WindowStartupLocation="CenterScreen"
+		
+		cal:Message.Attach="
+		[Gesture Shift+6] = [Button_Click('^')];
+		[Key M] = [Button_Click('%')];
+		[Key C] = [Clear];
+		[Key Escape] = [Clear];
+		[Key E] = [ClearLast];
+		[Key Back] = [ClearLast];
+		[Key OemBackslash] = [ClearLast];
+		[Key OemQuestion] = [Button_Click('/')];
+		[Gesture Shift+8] = [Button_Click('*')];
+		[Key OemMinus] = [Button_Click('-')];
+		[Gesture Shift+OemPlus] = [Button_Click('+')];
+		[Key OemOpenBrackets] = [Button_Click('(')];
+		[Key OemCloseBrackets] = [Button_Click(')')];
+		[Gesture Shift+9] = [Button_Click('(')];
+		[Gesture Shift+0] = [Button_Click(')')];
+		[Key OemPlus] = [Resolve];
+		[Key Return] = [Resolve];
+		[Key Decimal] = [Button_Click('.')];
+		[Key OemPeriod] = [Button_Click('.')];
+		[Gesture 0] = [Button_Click('0')];
+		[Gesture 1] = [Button_Click('1')];
+		[Gesture 2] = [Button_Click('2')];
+		[Gesture 3] = [Button_Click('3')];
+		[Gesture 4] = [Button_Click('4')];
+		[Gesture 5] = [Button_Click('5')];
+		[Gesture 6] = [Button_Click('6')];
+		[Gesture 7] = [Button_Click('7')];
+		[Gesture 8] = [Button_Click('8')];
+		[Gesture 9] = [Button_Click('9')];"
+		>
+
+	<!-- Styles -->
+	<Window.Resources>
+		<Style x:Key="BaseStyle" TargetType="FrameworkElement">
+			<Setter Property="Margin" Value="2" />
+		</Style>
+
+		<Style TargetType="Grid">
+			<Setter Property="Background" Value="Black" />
+		</Style>
+
+		<Style TargetType="TextBox" BasedOn="{StaticResource BaseStyle}">
+			<Setter Property="Margin" Value="2, 0, 2, 12" />
+			<Setter Property="BorderBrush" Value="Silver" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+
+		<Style x:Key="ButtonBase" TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+						<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Background" Value="PaleGoldenrod" />
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="Black" />
+					<Setter Property="BorderBrush" Value="Gold" />
+					<Setter Property="BorderThickness" Value="2,2,1,1" />
+					<Setter Property="Foreground" Value="White" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+		<Style TargetType="Button" BasedOn="{StaticResource ButtonBase}" ></Style>
+
+		<Style x:Key="NumButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+			<Setter Property="Background" Value="Gold" />
+			<Setter Property="BorderThickness" Value="2" />
+		</Style>
+
+		<Style x:Key="ResolvButton" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+			<Setter Property="Background" Value="LightGoldenrodYellow" />
+			<Setter Property="BorderBrush" Value="DarkGoldenrod" />
+			<Setter Property="BorderThickness" Value="4" />
+		</Style>
+	</Window.Resources>
+
+	<!-- Grid Definition -->
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="20" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="20" />
+		</Grid.RowDefinitions>
+
+		<!-- Row 1 -->
+		<TextBox Text="{Binding Path=Expression, Mode=OneWay}"
+				 Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
+				 HorizontalAlignment="Stretch" IsReadOnly="True"
+				 VerticalContentAlignment="Center"
+				 TextAlignment="Right" TextChanged="OutputBox_Changed">
+		</TextBox>
+
+		<!-- Row 2 -->
+		<Button cal:Message.Attach="[Button_Click('^')]" Grid.Column="1" Grid.Row="2" Content="^" />
+		<Button cal:Message.Attach="[Button_Click('%')]" Grid.Column="2" Grid.Row="2" Content="Mod" />
+		<Button cal:Message.Attach="[Clear]" Grid.Column="3" Grid.Row="2" Content="C" />
+		<Button cal:Message.Attach="[ClearLast]" Grid.Column="4" Grid.Row="2" Content="CE" />
+		
+		<!-- Row 3 -->
+		<Button cal:Message.Attach="[Button_Click('7')]" Grid.Column="1" Grid.Row="3" Content="7" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('8')]" Grid.Column="2" Grid.Row="3" Content="8" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('9')]" Grid.Column="3" Grid.Row="3" Content="9" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('/')]" Grid.Column="4" Grid.Row="3" Content="/" />
+
+		<!-- Row 4 -->
+		<Button cal:Message.Attach="[Button_Click('4')]" Grid.Column="1" Grid.Row="4" Content="4" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('5')]" Grid.Column="2" Grid.Row="4" Content="5" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('6')]" Grid.Column="3" Grid.Row="4" Content="6" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('*')]" Grid.Column="4" Grid.Row="4" Content="*"/>
+
+		<!-- Row 5 -->
+		<Button cal:Message.Attach="[Button_Click('1')]" Grid.Column="1" Grid.Row="5" Content="1" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('2')]" Grid.Column="2" Grid.Row="5" Content="2" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('3')]" Grid.Column="3" Grid.Row="5" Content="3" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click('-')]" Grid.Column="4" Grid.Row="5" Content="-"/>
+
+		<!-- Row 6 -->
+		<Button cal:Message.Attach="[Button_Click('(')]" Grid.Column="1" Grid.Row="6" Content="(" Style="{StaticResource NumButton}"/>
+		<Button cal:Message.Attach="[Button_Click('0')]" Grid.Column="2" Grid.Row="6" Content="0" Style="{StaticResource NumButton}" />
+		<Button cal:Message.Attach="[Button_Click(')')]" Grid.Column="3" Grid.Row="6" Content=")" Style="{StaticResource NumButton}"/>
+		<Button cal:Message.Attach="[Button_Click('+')]" Grid.Column="4" Grid.Row="6" Content="+"/>
+		
+		<!-- Row 7 -->
+		<Button cal:Message.Attach="[Button_Click('.')]" Grid.Column="1" Grid.Row="7" Content="."/>
+		<Button cal:Message.Attach="[Resolve]" Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="3" Content="=" Style="{StaticResource ResolvButton}" />
+
+	</Grid>
+</Window>

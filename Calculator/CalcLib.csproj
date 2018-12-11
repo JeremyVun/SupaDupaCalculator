@@ -41,15 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expression.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NumNode.cs" />
     <Compile Include="Nodes\BracketNode.cs" />
     <Compile Include="Nodes\Operators\ModOp.cs" />
     <Compile Include="Nodes\Operators\OpPrecedence.cs" />
-    <Compile Include="Nodes\OpNode.cs" />
+    <Compile Include="Nodes\Operators\OpNode.cs" />
     <Compile Include="Nodes\Operators\NullOp.cs" />
     <Compile Include="Nodes\NodeFac.cs" />
+    <Compile Include="Nodes\Operators\PowOp.cs" />
     <Compile Include="Nodes\Operators\SubOp.cs" />
     <Compile Include="Nodes\Operators\MulOp.cs" />
     <Compile Include="Nodes\Operators\DivOp.cs" />

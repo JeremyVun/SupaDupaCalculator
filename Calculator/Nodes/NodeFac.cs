@@ -15,6 +15,7 @@ namespace Calculator
 				case '*': return new MulOp();
 				case '/': return new DivOp();
 				case '%': return new ModOp();
+				case '^': return new PowOp();
 				case '(':
 				case ')':
 					return new BracketNode(new string(new char[] { c } ));
