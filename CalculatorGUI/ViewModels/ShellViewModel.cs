@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CalculatorGUI.Models;
 using Calculator;
 
 namespace CalculatorGUI.ViewModels
@@ -29,9 +28,6 @@ namespace CalculatorGUI.ViewModels
 		}
 
 		public void Button_Click(char c) {
-			if (expression.Count > 0 && expression[0] == '0') {
-				expression.RemoveAt(0);
-			}
 			isAnswer = false;
 			expression.Add(c);
 			NotifyOfPropertyChange(() => Expression);

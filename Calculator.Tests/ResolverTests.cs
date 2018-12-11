@@ -241,5 +241,20 @@ namespace Calculator.Tests
 
 			Assert.Equal(expected, actual);
 		}
+
+		[Fact]
+		public void ResolveLeadingZeros() {
+			Resolver resolver = new Resolver();
+
+			// 00.1
+			List<char> expression = new List<char>() {
+				'0', '0', '.', '1',
+			};
+
+			double actual = resolver.Resolve(expression);
+			double expected = 0.1;
+
+			Assert.Equal(expected, actual);
+		}
 	}
 }

@@ -17,7 +17,7 @@ namespace Calculator
 				return 0;
 
 			//start and end trims
-			while (!Char.IsNumber(rawExp[0]) && rawExp[0] != '(' && rawExp[0] != '-') {
+			while (!Char.IsNumber(rawExp[0]) && rawExp[0] != '(' && rawExp[0] != '-' && rawExp[0] != '.') {
 				rawExp.RemoveAt(0);
 				if (rawExp.Count == 0)
 					return 0;
