@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NumNode.cs" />
     <Compile Include="Nodes\BracketNode.cs" />

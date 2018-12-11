@@ -20,6 +20,15 @@ namespace Calculator.Tests
 		}
 
 		[Fact]
+		public void PowTest() {
+			Node op = NodeFac.Create('^');
+			double actual = ((OpNode)op).Calculate(3, 2);
+			double expected = 9;
+
+			Assert.Equal(actual, expected);
+		}
+
+		[Fact]
 		public void SubtractTest() {
 			Node op = NodeFac.Create('-');
 			double actual = ((OpNode)op).Calculate(4, 2);

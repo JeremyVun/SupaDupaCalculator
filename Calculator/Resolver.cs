@@ -40,16 +40,18 @@ namespace Calculator
 			List<Node> result = new List<Node>();
 			double n = 0;
 			int floating = 0;
+			int sign = 1;
 			bool numInBuffer = false;
 
 			for (int i = 0; i < exp.Count; i++) {
 				if (Char.IsNumber(exp[i])) {
 					numInBuffer = true;
 					if (floating > 0) {
-						n = n + Char.GetNumericValue(exp[i]) / (Math.Pow(10, floating));
+						n = n + (Char.GetNumericValue(exp[i]) * sign) / (Math.Pow(10, floating));
 						floating++;
 					}
 					else if (i != 0 && exp[i-1] == '-') {
+						sign = -1;
 						n = Char.GetNumericValue(exp[i]) * -1;
 						if (i - 2 >= 0 && Char.IsNumber(exp[i - 2]))
 							result[result.Count - 1] = NodeFac.Create('+');
@@ -61,7 +63,7 @@ namespace Calculator
 							result.RemoveAt(result.Count -1);
 					}
 					else {
-						n = n * 10 + Char.GetNumericValue(exp[i]);
+						n = n * 10 + (Char.GetNumericValue(exp[i]) * sign);
 					}
 
 					if (i == exp.Count - 1)
@@ -75,7 +77,13 @@ namespace Calculator
 						result.Add(new NumNode(n));
 						n = 0;
 						numInBuffer = false;
+						sign = 1;
 						floating = 0;
+					}
+					else if (exp.Count >= i + 2 && exp[i] == '-' && exp[i + 1] == '(') {
+						result.Add(new NumNode(-1));
+						result.Add(NodeFac.Create('*'));
+						continue;
 					}
 					Node node = NodeFac.Create(exp[i]);
 
