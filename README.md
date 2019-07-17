@@ -1,2 +1,2 @@
 # SupaDupaCalculator
-c# gui calc
+Crazy calculator that doesn't use RPN
